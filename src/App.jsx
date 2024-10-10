@@ -73,6 +73,10 @@ class Delete extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     /*Q5. Fetch the passenger details from the deletion form and call deleteTraveller()*/
+    const form = document.forms.deleteTraveller;
+    console.log(form.travellername.value);
+    //code to delete the traveller.
+    this.props.deletefun(form.travellername.value);
   }
 
   render() {
@@ -112,6 +116,10 @@ class TicketToRide extends React.Component {
   componentDidMount() {
     this.loadData();
   }
+  componentDidUpdate()
+  {
+    console.log("componentDidUpdate()", this.state.travellers);
+  }
 
   loadData() {
     setTimeout(() => {
@@ -125,6 +133,13 @@ class TicketToRide extends React.Component {
 
   deleteTraveller(passenger) {
 	  /*Q5. Write code to delete a passenger from the traveller state variable.*/
+    console.log("deleteTraveller:", passenger);
+    //actual deletion
+    var newlist = [];
+    this.state.travellers.forEach(element => {
+      if (element.name != passenger){newlist.push(element)}
+    });
+    this.setState({travellers: newlist})
   }
   render() {
     return (
@@ -140,6 +155,7 @@ class TicketToRide extends React.Component {
 		
 		{/*Q4. Code to call the component that adds a traveller.*/}
 		{/*Q5. Code to call the component that deletes a traveller based on a given attribute.*/}
+    <Delete deletefun={this.deleteTraveller}/>
 	</div>
       </div>
     );
