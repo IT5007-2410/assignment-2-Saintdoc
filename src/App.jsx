@@ -126,11 +126,30 @@ class Homepage extends React.Component {
     const totalseats = 120;
     const bookedseats = this.props.travellers.length;
     const freeseats = totalseats - bookedseats;
+    
+    const visualseats = [];
+    for (let i = 0; i < totalseats; i++)
+      {
+        const seatcolor = (i<bookedseats) ? 'grey' : 'green';
+        visualseats.push(
+        <div key={i} 
+        style={{
+          width: '30px', height: '30px', margin: '5px', 
+          display: 'inline-block', border: '1px solid black', 
+          backgroundColor: seatcolor,}}/>
+        );
+      };
+
 	return (
 	<div>
 		{/*Q2. Placeholder for Homepage code that shows free seats visually.*/}
     <h2>Free Seats: {freeseats}</h2>
     <h3>Total Seats: {totalseats}<span> || </span>Booked Seats: {bookedseats}</h3>
+
+    <div> 
+      {visualseats} 
+    </div>
+
 	</div>);
 	}
 }
