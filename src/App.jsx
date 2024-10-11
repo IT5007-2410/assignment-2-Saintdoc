@@ -10,6 +10,7 @@ const initialTravellers = [
   },
 ];
 
+let idCounter = 2; 
 
 function TravellerRow(props) {
   {/*Q3. Placeholder to initialize local variable based on traveller prop.*/}
@@ -51,13 +52,22 @@ class Add extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     /*Q4. Fetch the passenger details from the add form and call bookTraveller()*/
+    const form = document.forms.addTraveller;
+    const name = form.travellername.value;
+    const phone = form.travellerphone.value;
+    const bookingTime = new Date(form.travellerbookingtime.value);
+    console.log(name, phone, bookingTime);
+    //code to add the traveller.
+    this.props.addfun({name: name, phone: phone, bookingTime: bookingTime});
   }
 
   render() {
     return (
       <form name="addTraveller" onSubmit={this.handleSubmit}>
 	    {/*Q4. Placeholder to enter passenger details. Below code is just an example.*/}
-        <input type="text" name="travellername" placeholder="Name" />
+        <input type="text" name="travellername" placeholder="Name" required/>
+        <input type="tel" name="travellerphone" placeholder="Phone" pattern="[0-9]*" required />
+        <input type="datetime-local" name="travellerbookingtime" placeholder="Booking Time" required/>
         <button>Add</button>
       </form>
     );
@@ -83,7 +93,7 @@ class Delete extends React.Component {
     return (
       <form name="deleteTraveller" onSubmit={this.handleSubmit}>
 	    {/*Q5. Placeholder form to enter information on which passenger's ticket needs to be deleted. Below code is just an example.*/}
-	<input type="text" name="travellername" placeholder="Name" />
+	      <input type="text" name="travellername" placeholder="Name" />
         <button>Delete</button>
       </form>
     );
@@ -129,6 +139,11 @@ class TicketToRide extends React.Component {
 
   bookTraveller(passenger) {
 	    /*Q4. Write code to add a passenger to the traveller state variable.*/
+      console.log("bookTraveller:", passenger);
+      //actual addition
+      idCounter++;
+      const newTraveller = {id: idCounter, ...passenger};
+      this.setState({travellers:[...this.state.travellers, newTraveller]});
   }
 
   deleteTraveller(passenger) {
@@ -154,6 +169,7 @@ class TicketToRide extends React.Component {
 		{/*Q3. Code to call component that Displays Travellers.*/}
 		
 		{/*Q4. Code to call the component that adds a traveller.*/}
+    <Add addfun={this.bookTraveller}/>
 		{/*Q5. Code to call the component that deletes a traveller based on a given attribute.*/}
     <Delete deletefun={this.deleteTraveller}/>
 	</div>
