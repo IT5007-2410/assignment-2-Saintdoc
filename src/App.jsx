@@ -1,15 +1,15 @@
 /*Q1. JS Variable needs to be created here. Below variable is just an example. Try to add more attributes.*/
 const initialTravellers = [
   {
-    id: 1, name: 'Jack', phone: 88885555,
+    id: 1, name: 'Jack', phone: 88885555, email: "jack@email.com",
     bookingTime: new Date(), seat: '1A',
   },
   {
-    id: 2, name: 'Rose', phone: 88884444,
+    id: 2, name: 'Rose', phone: 88884444, email: "rose@email.com",
     bookingTime: new Date(), seat: '3B',
   },
   {
-    id: 3, name: 'Titanic', phone: 88886666,
+    id: 3, name: 'Titanic', phone: 88886666, email: "titanic@email.com",
     bookingTime: new Date(), seat: '15C',
   },
 ];
@@ -18,9 +18,16 @@ let idCounter = 3;
 
 function TravellerRow(props) {
   {/*Q3. Placeholder to initialize local variable based on traveller prop.*/}
+  const {id, name, phone, email, bookingTime, seat} = props.onerow;
   return (
     <tr>
 	  {/*Q3. Placeholder for rendering one row of a table with required traveller attribute values.*/}
+      <td>{id}</td>
+      <td>{name}</td>
+      <td>{phone}</td>
+      <td>{email}</td>
+      <td>{bookingTime.toISOString()}</td>
+      <td>{seat}</td>
     </tr>
   );
 }
@@ -37,11 +44,14 @@ function Display(props) {
           <th>ID</th>
           <th>Name</th>
           <th>Phone</th>
+          <th>Email</th>
           <th>Booking Time</th>
+          <th>Seat</th>
         </tr>
       </thead>
       <tbody>
         {/*Q3. write code to call the JS variable defined at the top of this function to render table rows.*/}
+        {props.travellers.map(onetraveller => (<TravellerRow key={onetraveller.id} onerow={onetraveller}/>))}
       </tbody>
     </table>
   );
@@ -59,11 +69,12 @@ class Add extends React.Component {
     const form = document.forms.addTraveller;
     const name = form.travellername.value;
     const phone = form.travellerphone.value;
+    const email = form.travelleremail.value;
     const bookingTime = new Date(form.travellerbookingtime.value);
     const seat = form.travellerseat.value;
-    console.log(name, phone, bookingTime, seat);
+    console.log(name, phone, email, bookingTime, seat);
     //code to add the traveller.
-    this.props.addfun({name: name, phone: phone, bookingTime: bookingTime, seat: seat});
+    this.props.addfun({name: name, phone: phone, email: email, bookingTime: bookingTime, seat: seat});
   }
 
   render() {
@@ -72,6 +83,7 @@ class Add extends React.Component {
 	    {/*Q4. Placeholder to enter passenger details. Below code is just an example.*/}
         <input type="text" name="travellername" placeholder="Name" required/>
         <input type="tel" name="travellerphone" placeholder="Phone" pattern="[0-9]*" required />
+        <input type="email" name="travelleremail" placeholder="Email" required/>
         <input type="datetime-local" name="travellerbookingtime" placeholder="Booking Time" required/>
         <input type="text" name="travellerseat" placeholder="Seat" required/>
         <button>Add</button>
@@ -173,7 +185,7 @@ class TicketToRide extends React.Component {
 		{/*Only one of the below four divisions is rendered based on the button clicked by the user.*/}
 		{/*Q2 and Q6. Code to call Instance that draws Homepage. Homepage shows Visual Representation of free seats.*/}
 		{/*Q3. Code to call component that Displays Travellers.*/}
-		
+		<Display travellers={this.state.travellers}/>
 		{/*Q4. Code to call the component that adds a traveller.*/}
     <Add addfun={this.bookTraveller}/>
 		{/*Q5. Code to call the component that deletes a traveller based on a given attribute.*/}
