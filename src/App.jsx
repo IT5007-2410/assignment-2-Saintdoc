@@ -2,15 +2,19 @@
 const initialTravellers = [
   {
     id: 1, name: 'Jack', phone: 88885555,
-    bookingTime: new Date(),
+    bookingTime: new Date(), seat: '1A',
   },
   {
     id: 2, name: 'Rose', phone: 88884444,
-    bookingTime: new Date(),
+    bookingTime: new Date(), seat: '3B',
+  },
+  {
+    id: 3, name: 'Titanic', phone: 88886666,
+    bookingTime: new Date(), seat: '15C',
   },
 ];
 
-let idCounter = 2; 
+let idCounter = 3; 
 
 function TravellerRow(props) {
   {/*Q3. Placeholder to initialize local variable based on traveller prop.*/}
@@ -56,9 +60,10 @@ class Add extends React.Component {
     const name = form.travellername.value;
     const phone = form.travellerphone.value;
     const bookingTime = new Date(form.travellerbookingtime.value);
-    console.log(name, phone, bookingTime);
+    const seat = form.travellerseat.value;
+    console.log(name, phone, bookingTime, seat);
     //code to add the traveller.
-    this.props.addfun({name: name, phone: phone, bookingTime: bookingTime});
+    this.props.addfun({name: name, phone: phone, bookingTime: bookingTime, seat: seat});
   }
 
   render() {
@@ -68,6 +73,7 @@ class Add extends React.Component {
         <input type="text" name="travellername" placeholder="Name" required/>
         <input type="tel" name="travellerphone" placeholder="Phone" pattern="[0-9]*" required />
         <input type="datetime-local" name="travellerbookingtime" placeholder="Booking Time" required/>
+        <input type="text" name="travellerseat" placeholder="Seat" required/>
         <button>Add</button>
       </form>
     );
